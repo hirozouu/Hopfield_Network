@@ -9,17 +9,18 @@ class Hopfield_Network:
 
     def fit(self, X):
         for x_i in X:
-            self.W += (2 * x_i-1) @ (2 * x_i.T - 1)
+            x_i = x_i.reshape((-1, 1))
+            self.W += x_i @ x_i.T
 
     def energy_function(self, x):
-        return -0.5 * np.dot(self.W, x @ x.T)
+        return -0.5 * np.sum(self.W *  (x.T @ x))
 
     def predict(self, x, iter=100):
         x = x.reshape((-1, 1))
         y = self.W @ x
         for _ in range(iter):
             y = self.W @ y
-            y = np.where(y > 0, 1, 0)
+            y = np.where(y > 0, 1, -1)
             self.energies.append(self.energy_function(y))
         
         return y
