@@ -13,15 +13,22 @@ class Hopfield_Network:
             self.W += x_i @ x_i.T
 
     def energy_function(self, x):
-        return -0.5 * np.sum(self.W *  (x.T @ x))
+        return -0.5 * np.sum(self.W * (x.T @ x))
 
-    def predict(self, x, iter=100):
+    def predict(self, x, iter=10):
         x_reshaped = x.reshape((-1, 1))
         y = self.W @ x_reshaped
-        for _ in range(iter):
-            y = self.W @ y
-            y = np.where(y > 0, 1, -1)
-            self.energies.append(self.energy_function(y))
+        for i in range(iter):
+            print("iteration: {}".format(i))
+            print("")
+
+            for j in range(len(y)):
+                y[j] = np.sum(self.W[j] * y[j:j+len(self.W)])
+                if (y[j] > 0):
+                    y[j] = 1
+                else:
+                    y[j] = -1
+                self.energies.append(self.energy_function(y))
         
         return y
     
