@@ -16,8 +16,8 @@ class Hopfield_Network:
         return -0.5 * np.sum(self.W *  (x.T @ x))
 
     def predict(self, x, iter=100):
-        x = x.reshape((-1, 1))
-        y = self.W @ x
+        x_reshaped = x.reshape((-1, 1))
+        y = self.W @ x_reshaped
         for _ in range(iter):
             y = self.W @ y
             y = np.where(y > 0, 1, -1)
