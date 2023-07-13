@@ -9,6 +9,7 @@ $$
 $$
 y_i = \sum_{j=1}^{N} w_{ij} x_j
 $$
+
 $$
 x_i = \begin{cases}
     1  & y_i > 0 \\
