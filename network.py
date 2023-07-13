@@ -11,6 +11,7 @@ class Hopfield_Network:
         for x_i in X:
             x_i = x_i.reshape((-1, 1))
             self.W += x_i @ x_i.T
+        self.W = self.W / len(X)
 
     def energy_function(self, x):
         return -0.5 * np.sum(self.W * (x.T @ x))
@@ -23,7 +24,7 @@ class Hopfield_Network:
             print("")
 
             for j in range(len(y)):
-                y[j] = np.sum(self.W[j] * y[j:j+len(self.W)])
+                y[j] = np.sum(self.W[j] * y)
                 if (y[j] > 0):
                     y[j] = 1
                 else:
